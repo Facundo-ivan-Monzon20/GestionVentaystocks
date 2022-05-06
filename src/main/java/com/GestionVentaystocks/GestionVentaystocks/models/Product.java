@@ -1,0 +1,26 @@
+package com.GestionVentaystocks.GestionVentaystocks.models;
+
+
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "Product")
+@Getter @Setter
+public class Product {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(name = "name", length = 60, nullable = false, unique = true)
+  private String name;
+
+  @Column(name = "price", length = 60, nullable = false)
+  private Integer price;
+
+  @Column(name = "stocks")
+  private Integer stocks;
+}
