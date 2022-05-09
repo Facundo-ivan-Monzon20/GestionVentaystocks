@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+// Esta clase se conecta con la tabla Mysql de H2
 @Entity
 @Table(name = "Product")
 @Getter @Setter
