@@ -12,23 +12,27 @@ import java.util.List;
 @RestController
 
 //ruta principal o raìz de donde se consumen los distintos pedidos. get,post,etc
-@RequestMapping("api/Products")
+@RequestMapping("api/products")
 //la ruta de donde se consume la api, o el front-end le hace pedidos al back-end
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class ProductControllers {
 
   @Autowired
   private ProductRepository repository;
 
   // este metodo es un Get donde se listan todos los productos.
-  @GetMapping("/ListProducts")
+  @GetMapping("/list_products")
   public List<Product> ListProducts(){
     return repository.findAll();
   }
 
-  @PostMapping("/ListProducts")
+  @PostMapping("/save_products")
   public Product saveProduct(@RequestBody Product product){
     return repository.save(product);
   }
 
+  @PutMapping("update_stocks/{id}")
+  public void update_stocks(@PathVariable(value = "id") Long id, Integer stock){
+
+  }
 }
