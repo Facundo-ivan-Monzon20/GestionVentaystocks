@@ -24,4 +24,9 @@ public class Product {
 
   @Column(name = "stocks")
   private Integer stocks;
+
+
+  public void sum_stock(Integer stock){
+    this.stocks = this.stocks + stock;
+  }
 }

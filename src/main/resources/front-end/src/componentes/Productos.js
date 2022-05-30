@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import './Productos.css'
 
 function Productos() {
-	const url = 'http://localhost:8080/api/products/listproducts'
+	const url = 'http://localhost:8080/api/products/list_products'
 	const [producto, setProducto] = useState()
 	const fetchApi = async () => {
 		const response = await fetch(url)
@@ -39,9 +39,9 @@ function Productos() {
                             {producto.price}
                         </div>
                         <div className="col">
-                            {producto.stock}
+                            {producto.stocks}
                         </div>
-                      </div>
+                    </div>
                 })
                 }				        		
 		</div>
