@@ -29,6 +29,12 @@ public class ProductControllers {
     return repository.save(product);
   }
 
+  @GetMapping("/product/{id}")
+  public Product getProducto(@PathVariable(value = "id") Long id){
+    Product product = repository.getById(id);
+    return product;
+  }
+
   @PutMapping("update_product/{id}")
   public void updateStocks(@PathVariable(value = "id") Long id, @RequestBody Product product){
     Product product_id = repository.getById(id);

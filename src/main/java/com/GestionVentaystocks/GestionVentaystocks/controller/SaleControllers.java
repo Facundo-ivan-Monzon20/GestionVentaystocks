@@ -25,6 +25,11 @@ public class SaleControllers {
         return saleRepository.findAll();
     }
 
+    @GetMapping("/get_sale/{id}")
+    public Sale get_sale(@PathVariable(value = "id") Long id){
+        return saleRepository.getById(id);
+    }
+
     @PostMapping("/save_sale")
     public void saveSale(@RequestBody Sale sale){
         LocalDate date = LocalDate.now();
