@@ -1,30 +1,32 @@
-import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Inicio from "./componentes/Inicio";
-import Productos from "./componentes/Productos";
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import HeaderComponente from './componentes/HeaderComponente';
+import FooterComponente from './componentes/FooterComponente';
+import CrearProductoComponente from './componentes/CrearProductoComponente';
+import ListarProductosComponente from './componentes/ListarProductosComponente';
+import ActualizarProductoComponente from './componentes/ActualizarProductoComponente';
+import VerProductoComponente from './componentes/VerProductoComponente';
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Switch>
-          <Route exact={true} path="/productos">
-            <Productos />
-          </Route>
-          {/* <Route exact={true} path="/signup">
-              <SignUpScreen />
-            </Route> */}
-          <Route exact={true} path="/">
-            <Inicio />
-          </Route>
-          <Route path="*">
-            <div>
-              <h1>404</h1>
-            </div>
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <div>
+        <Router>
+              <HeaderComponente />
+                <div className="container">
+                    <Switch> 
+                          <Route path = "/" exact component = {ListarProductosComponente}></Route>
+                          <Route path = "/productos" component = {ListarProductosComponente}></Route>
+                          <Route path = "/crear-producto/:id" component = {CrearProductoComponente}></Route>
+                          <Route path = "/ver-producto/:id" component = {VerProductoComponente}></Route>
+                          <Route path = "/actualizar-producto/:id" component = {ActualizarProductoComponente}></Route>
+                    </Switch>
+                </div>
+              <FooterComponente />
+        </Router>
+    </div>
+    
   );
 }
 
