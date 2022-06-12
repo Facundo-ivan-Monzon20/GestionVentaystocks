@@ -20,7 +20,8 @@ public class Sale {
     @Column(name = "date_sale")
     private LocalDate date_sale;
 
-    @Column(name = "products")
+    @JoinColumn(name = "products_id")
     @ManyToMany
     private List<Product> products;
+
 }

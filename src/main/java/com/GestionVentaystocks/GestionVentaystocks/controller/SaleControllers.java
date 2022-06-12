@@ -13,32 +13,15 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/sale")
+@RequestMapping("api/")
 @CrossOrigin(origins = "*")
 public class SaleControllers {
 
     @Autowired
     private SaleRepository saleRepository;
 
-    @GetMapping("/get_sale")
-    public List<Sale> get_sales(){
-        return saleRepository.findAll();
-    }
 
-    @GetMapping("/get_sale/{id}")
-    public Sale get_sale(@PathVariable(value = "id") Long id){
-        return saleRepository.getById(id);
-    }
-
-    @PostMapping("/save_sale")
-    public void saveSale(@RequestBody Sale sale){
-        LocalDate date = LocalDate.now();
-        sale.setDate_sale(date);
-
-        saleRepository.save(sale);
-    }
-
-    @GetMapping("/sale_total/{id}")
+    @GetMapping("/sale/")
     public int get_total(@PathVariable(name = "id") Long id){
         Sale sale = saleRepository.getById(id);
         List<Product> products = sale.getProducts();
@@ -47,9 +30,7 @@ public class SaleControllers {
         //map.get(products.get(1));
 
         int total = 0;
-        for (Product product : products) {
-            total = total + product.getPrice();
-        }
         return total;
+
     }
 }

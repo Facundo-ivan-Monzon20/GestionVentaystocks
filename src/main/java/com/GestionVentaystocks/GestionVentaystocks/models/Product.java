@@ -9,24 +9,36 @@ import javax.persistence.*;
 // Esta clase se conecta con la tabla Mysql de H2
 @Entity
 @Table(name = "Product")
-@Getter @Setter
+@Getter
+@Setter
 public class Product {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "name", length = 60, nullable = false, unique = true)
+  @Column(name = "name", length = 60, nullable = false)
   private String name;
 
   @Column(name = "price", length = 60, nullable = false)
-  private Integer price;
+  private float price;
 
-  @Column(name = "stocks")
+  @Column(name= "stocks")
   private Integer stocks;
 
+  @Column(name = "activated", columnDefinition = "boolean default true")
+  private boolean activated;
 
-  public void sum_stock(Integer stock){
-    this.stocks = this.stocks + stock;
+
+  public Product(Long id, String name, float price, Integer stocks, boolean activated) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.stocks = stocks;
+    this.activated = activated;
+  }
+
+  public Product() {
+
   }
 }
