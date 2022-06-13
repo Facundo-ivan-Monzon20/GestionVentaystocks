@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+
 
 @Entity
 @Table(name = "Sale")
@@ -20,8 +20,8 @@ public class Sale {
     @Column(name = "date_sale")
     private LocalDate date_sale;
 
-    @JoinColumn(name = "products_id")
-    @ManyToMany
-    private List<Product> products;
+    @JoinColumn(name = "shopping_cart_id")
+    @OneToOne
+    private shoppingCart shoppingCart;
 
 }

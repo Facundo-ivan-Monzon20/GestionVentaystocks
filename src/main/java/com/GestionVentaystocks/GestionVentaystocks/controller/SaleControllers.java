@@ -1,8 +1,7 @@
 package com.GestionVentaystocks.GestionVentaystocks.controller;
 
-import com.GestionVentaystocks.GestionVentaystocks.models.Product;
 import com.GestionVentaystocks.GestionVentaystocks.models.Sale;
-import com.GestionVentaystocks.GestionVentaystocks.repository.SaleRepository;
+import com.GestionVentaystocks.GestionVentaystocks.service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,14 +16,28 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*")
 public class SaleControllers {
 
+    private SaleService saleService;
+
     @Autowired
-    private SaleRepository saleRepository;
+    public SaleControllers(SaleService saleService) {
+        this.saleService = saleService;
+    }
 
 
-    @GetMapping("/sale/")
+    @PostMapping("/sale")
+    public Sale saveSale(@RequestBody Sale sale){
+        LocalDate date = LocalDate.now();
+        sale.setDate_sale(date);
+
+
+        return saleService.SaleGuardar(sale);
+    }
+
+
+    @GetMapping("/sale/{id}")
     public int get_total(@PathVariable(name = "id") Long id){
-        Sale sale = saleRepository.getById(id);
-        List<Product> products = sale.getProducts();
+        //Sale sale = saleRepository.getById(id);
+       // List<Product> products = sale.getProducts();
 
         //Map<Product, Integer> map = products.stream().collect(Collectors.toMap(Function.identity(), value -> 1, Integer::sum));
         //map.get(products.get(1));
