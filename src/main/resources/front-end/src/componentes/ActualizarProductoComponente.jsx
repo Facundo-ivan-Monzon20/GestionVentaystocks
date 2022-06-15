@@ -1,94 +1,69 @@
-import React, { Component } from 'react'
+import {useState, useEffect} from 'react';
+import {useParams} from 'react-router-dom';
 import ProductosServicio from '../servicios/ProductosServicio';
 
-class ActualizarProductoComponente extends Component {
-    constructor(props) {
-        super(props)
+function ActualizarProductoComponente(props) {
+    const {id} = useParams()
+    const [name, setName] = useState([])
+    const [price, setPrice] = useState([])
+    const [stocks, setStocks] = useState([])
+    const [productos, setProductos] = useState([])
 
-        this.state = {
-            id: this.props.match.params.id,
-            name: '',
-            price: '',
-            stocks: ''
+    console.log({id})
+
+    const fetchProductos = () => {
+        ProductosServicio.httpGet('')
+            .then((res) => setProductos(res.data))
+     }
+
+    const editProductos = (e) => {
+        e.preventDefault()
+         ProductosServicio.httpPut(`/${id}`, {name: name, price: price, stocks: stocks})
+             .then(fetchProductos)
+             props.history.push('/productos');
         }
-        this.changenameHandler = this.changenameHandler.bind(this);
-        this.changepriceHandler = this.changepriceHandler.bind(this);
-        this.updateProducto = this.updateProducto.bind(this);
+
+    const cancel = () => {
+        props.history.push('/productos');
     }
 
-    componentDidMount(){
-        ProductosServicio.getProductoById(this.state.id).then( (res) =>{
-            let Producto = res.data;
-            this.setState({name: Producto.name,
-                price: Producto.price,
-                stocks : Producto.stocks
-            });
-        });
-    }
+    useEffect(fetchProductos, [])
 
-    updateProducto = (e) => {
-        e.preventDefault();
-        let Producto = {name: this.state.name, price: this.state.price, stocks: this.state.stocks};
-        console.log('Producto => ' + JSON.stringify(Producto));
-        console.log('id => ' + JSON.stringify(this.state.id));
-        ProductosServicio.updateproducto(Producto, this.state.id).then( res => {
-            this.props.history.push('/productos');
-        });
-    }
-    
-    changenameHandler= (event) => {
-        this.setState({name: event.target.value});
-    }
+    return (
+        <div>
+            <br></br>
+                <div className = "container">
+                    <div className = "row">
+                        <div className = "card col-md-6 offset-md-3 offset-md-3">
+                            <h3 className="text-center">Actualizar Producto</h3>
+                            <div className = "card-body">
+                                <form>
+                                    <div className = "form-group">
+                                        <label> Nombre: </label>
+                                        <input placeholder="Nombre" name="name" className="form-control" 
+                                            value={name}  onChange={(e) => setName(e.target.value) }/>
+                                    </div>
+                                    <div className = "form-group">
+                                        <label> Precio: </label>
+                                        <input placeholder="Precio" name="price" className="form-control" 
+                                            value={price}  onChange={(e) => setPrice(e.target.value) }/>
+                                    </div>
+                                    <div className = "form-group">
+                                        <label> Stock: </label>
+                                        <input placeholder="Stock" name="stocks" className="form-control" 
+                                            value={stocks}  onChange={(e) => setStocks(e.target.value) }/>
+                                    </div>
 
-    changepriceHandler= (event) => {
-        this.setState({price: event.target.value});
-    }
-
-    changestocksHandler= (event) => {
-        this.setState({stocks: event.target.value});
-    }
-
-    cancel(){
-        this.props.history.push('/productos');
-    }
-
-    render() {
-        return (
-            <div>
-                <br></br>
-                   <div className = "container">
-                        <div className = "row">
-                            <div className = "card col-md-6 offset-md-3 offset-md-3">
-                                <h3 className="text-center">Actualizar Producto</h3>
-                                <div className = "card-body">
-                                    <form>
-                                        <div className = "form-group">
-                                            <label> Nombre: </label>
-                                            <input placeholder="Nombre" name="name" className="form-control" 
-                                                value={this.state.name} onChange={this.changenameHandler}/>
-                                        </div>
-                                        <div className = "form-group">
-                                            <label> Precio: </label>
-                                            <input placeholder="Precio" name="price" className="form-control" 
-                                                value={this.state.price} onChange={this.changepriceHandler}/>
-                                        </div>
-                                        <div className = "form-group">
-                                            <label> Stock: </label>
-                                            <input placeholder="Stock" name="stocks" className="form-control" 
-                                                value={this.state.stocks} onChange={this.changestocksHandler}/>
-                                        </div>
-
-                                        <button className="btn btn-success" onClick={this.updateproducto}>Guardar</button>
-                                        <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
-                                    </form>
-                                </div>
+                                    <button className="btn btn-success" onClick={editProductos}>Guardar</button>
+                                    <button className="btn btn-danger" onClick={cancel} style={{marginLeft: "10px"}}>Cancelar</button>
+                                </form>
                             </div>
                         </div>
+                    </div>
 
-                   </div>
-            </div>
-        )
-    }
+                </div>
+        </div>
+    )
 }
 
 export default ActualizarProductoComponente
