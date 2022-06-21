@@ -1,82 +1,66 @@
 package com.GestionVentaystocks.GestionVentaystocks.service;
 
 import com.GestionVentaystocks.GestionVentaystocks.models.Product;
-import com.GestionVentaystocks.GestionVentaystocks.models.ProductForSale;
 import com.GestionVentaystocks.GestionVentaystocks.models.shoppingCart;
 import com.GestionVentaystocks.GestionVentaystocks.repository.ShoppingCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ShoppingCartService {
-
-    private List<ProductForSale> productsSale = new ArrayList<ProductForSale>();
-    private float total;
-
-    private ShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
 
     @Autowired
     public ShoppingCartService(ShoppingCartRepository shoppingCartRepository) {
         this.shoppingCartRepository = shoppingCartRepository;
     }
 
-    public Long ShoppingCartGuardar(shoppingCart shoppingcart){
-
-        return shoppingCartRepository.save(shoppingcart).getId();
-
+    public List<shoppingCart> ListShoppingCart(){
+        return shoppingCartRepository.findAll();
     }
 
-    public shoppingCart getShoppingCart(Long id){
+    public Optional<shoppingCart> getShoppingCart(Long id){
 
-        return shoppingCartRepository.findById(id).get();
+        return shoppingCartRepository.findById(id);
     }
 
-    public shoppingCart ShoppingCartAgregarProducto(Long id, Product product){
-        shoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
-        shoppingCart.agregarProduct(product);
-
-        productsSale = shoppingCart.mapProduct(shoppingCart.getProducts());
-        total = shoppingCart.getTotal(productsSale);
+    public shoppingCart saveShoppingCart(shoppingCart shoppingCart){
 
         return shoppingCartRepository.save(shoppingCart);
     }
 
-    public shoppingCart ShoppingCartQuitarProducto(Long id, shoppingCart shoppingcart){
-        shoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
+    public shoppingCart updateShoppingCart(Long id, shoppingCart shoppingCart){
 
-        shoppingCart.setProducts(shoppingcart.getProducts());
+        shoppingCart cart = shoppingCartRepository.findById(id).get();
+        cart.setProducts(shoppingCart.getProducts());
 
-        productsSale = shoppingCart.mapProduct(shoppingCart.getProducts());
-        total = shoppingCart.getTotal(productsSale);
-
-        return shoppingCartRepository.save(shoppingCart);
+        return shoppingCartRepository.save(cart);
     }
 
-    public List<ProductForSale> ListProductForSale(Long id){
-        shoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
-
-        return shoppingCart.mapProduct(shoppingCart.getProducts());
-    }
-
-    public float getTotal(Long id){
-        shoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
-
-        productsSale = shoppingCart.mapProduct(shoppingCart.getProducts());
-
-        return shoppingCart.getTotal(productsSale);
-    }
-
-
-    public void shoppingCartBorrar(Long id){
-
+    public void deleteShoppingCart(Long id){
         shoppingCartRepository.deleteById(id);
-
     }
 
+    public void sumProduct(Long id, Product product){
+        shoppingCart cart = shoppingCartRepository.findById(id).get();
+        cart.agregarProduct(product);
+        shoppingCartRepository.save(cart);
+    }
 
+    public void resProduct(Long id, Product product){
+        shoppingCart cart = shoppingCartRepository.findById(id).get();
+        cart.quitarProduct(product);
+        shoppingCartRepository.save(cart);
+    }
+
+    public float total(Long id){
+        shoppingCart cart = shoppingCartRepository.findById(id).get();
+        return cart.getTotal(cart.mapProduct(cart.getProducts())) ;
+    }
 
 
 }

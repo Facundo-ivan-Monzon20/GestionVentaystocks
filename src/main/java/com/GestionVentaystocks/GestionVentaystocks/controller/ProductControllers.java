@@ -22,15 +22,15 @@ public class ProductControllers {
   }
 
   // este metodo es un Get donde se listan todos los productos.
-  @GetMapping("/productos")
+  @GetMapping("productos")
   public List<Product> ListProducts(){
     return productService.filterProductColum();
   }
-  @GetMapping("/productos/{id}")
+  @GetMapping("productos/{id}")
   public Optional<Product> getProduct(@PathVariable(value = "id") Long id){
     return productService.ProductPorId(id);
   }
-  @PostMapping("/productos")
+  @PostMapping("productos")
   public Product saveProduct(@RequestBody Product product){
 
     return productService.ProductGuardar(product);
@@ -41,9 +41,14 @@ public class ProductControllers {
     productService.ProductActualizar(id,product);
   }
 
-  @DeleteMapping("/productos/{id}")
+  @DeleteMapping("productos/{id}")
   public void deleteProduct(@PathVariable(value = "id") Long id){
 
     productService.ProductEliminar(id);
+  }
+
+  @PutMapping("productos/{id}/{suma}")
+  public Integer sumStocks(@PathVariable(value = "id")Long id,@PathVariable(value = "suma") Integer suma){
+    return productService.sumStocks(id,suma);
   }
 }

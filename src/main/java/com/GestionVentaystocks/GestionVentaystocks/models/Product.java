@@ -41,4 +41,13 @@ public class Product {
   public Product() {
 
   }
+
+  public Integer sumStocks(Integer sum){
+    this.stocks = this.stocks + sum;
+    return stocks;
+  }
+
+  public void resStocks(Integer res){
+    this.stocks = this.stocks - res;
+  }
 }

@@ -1,5 +1,6 @@
 package com.GestionVentaystocks.GestionVentaystocks.controller;
 
+
 import com.GestionVentaystocks.GestionVentaystocks.models.Product;
 import com.GestionVentaystocks.GestionVentaystocks.models.ProductForSale;
 import com.GestionVentaystocks.GestionVentaystocks.models.shoppingCart;
@@ -8,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 
 @RestController
 //ruta principal o raìz de donde se consumen los distintos pedidos. get,post,etc
-@RequestMapping("/api/")
+@RequestMapping("/api")
 //la ruta de donde se consume la api, o el front-end le hace pedidos al back-end
 @CrossOrigin(origins = "*")
 public class ShoppingCartCotrollers {
@@ -24,40 +28,43 @@ public class ShoppingCartCotrollers {
         this.shoppingCartService = shoppingCartService;
     }
 
-    @GetMapping("/shoppingCart/{id}")
-    public shoppingCart getShoppingCart(@PathVariable(value = "id") Long id){
+    @GetMapping("/carrito")
+    public List<shoppingCart> getListShopping(){
+        return shoppingCartService.ListShoppingCart();
+    }
+
+    @GetMapping("/carrito/{id}")
+    public Optional<shoppingCart> getShoppingCart(@PathVariable(value = "id") Long id){
         return shoppingCartService.getShoppingCart(id);
     }
 
-    @GetMapping("/shoppingCart/ListProduct/{id}")
-    public List<ProductForSale> getListProduct(@PathVariable(value = "id") Long id){
-        return shoppingCartService.ListProductForSale(id);
+    @PostMapping("/carrito")
+    public shoppingCart saveShoppingCart(@RequestBody shoppingCart shoppingCart){
+        return shoppingCartService.saveShoppingCart(shoppingCart);
     }
 
-    @GetMapping("/shoppingCart/total/{id}")
-    public float getTotal(@PathVariable(value = "id") Long id){
-        return shoppingCartService.getTotal(id);
+    @PutMapping("/carrito/{id}")
+    public shoppingCart updateShoppingCart(@PathVariable(value = "id") Long id, @RequestBody shoppingCart shoppingCart){
+        return shoppingCartService.updateShoppingCart(id,shoppingCart);
     }
 
-    @PostMapping("/shoppingCart")
-    public Long saveShoppingCart(@RequestBody shoppingCart shoppingCart){
-        return shoppingCartService.ShoppingCartGuardar(shoppingCart);
+    @DeleteMapping("/carrito/{id}")
+    public void deleteShoppingCart(@PathVariable(value = "id") Long id){
+        shoppingCartService.deleteShoppingCart(id);
     }
 
-    @PutMapping("shoppingCart/agregarProducto/{id}")
-    public shoppingCart addShoppingCart(@PathVariable(value = "id") Long id,@RequestBody Product product){
-
-        return shoppingCartService.ShoppingCartAgregarProducto(id,product);
-    }
-    @PutMapping("shoppingCart/quitarProducto/{id}")
-    public shoppingCart putOffShoppingCart(@PathVariable(value = "id") Long id,@RequestBody shoppingCart shoppingcart){
-        return shoppingCartService.ShoppingCartQuitarProducto(id,shoppingcart);
+    @PutMapping("/carrito/agregar/{id}")
+    public void sumProduct(@PathVariable(value = "id") Long id,@RequestBody Product product){
+        shoppingCartService.sumProduct(id,product);
     }
 
-    @DeleteMapping("/shoppingCart/{id}")
-    public void deleteShoppingCart(@PathVariable(value = "id")Long id){
-        shoppingCartService.shoppingCartBorrar(id);
+    @PutMapping("/carrito/quitar/{id}")
+    public void resProduct(@PathVariable(value = "id") Long id,@RequestBody Product product){
+        shoppingCartService.resProduct(id,product);
     }
 
-
+    @GetMapping("/carrito/total/{id}")
+    public float total(@PathVariable(value = "id")Long id){
+        return shoppingCartService.total(id);
+    }
 }

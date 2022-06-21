@@ -32,6 +32,10 @@ public class shoppingCart {
         products.add(product);
     }
 
+    public void quitarProduct(Product product){
+        products.remove(product);
+    }
+
     public List<ProductForSale> mapProduct(List<Product> products){
 
         List<ProductForSale> productsCart = new ArrayList<ProductForSale>();

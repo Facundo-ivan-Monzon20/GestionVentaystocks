@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class ProductService {
     private ProductRepository productRepository;
@@ -17,12 +20,15 @@ public class ProductService {
         this.productRepository = productRepository;
     }
     public List<Product> filterProductColum(){
+
+
         List<Product> newListProduct = new ArrayList<>();
-        for (Product product : productRepository.findAll()) {
-            if (product.isActivated()) {
-                newListProduct.add(product);
-            }
-        }
+
+        newListProduct= productRepository.findAll()
+                .stream()
+                .filter(product -> product.isActivated())
+                .collect(toList());
+
         return newListProduct;
     }
 
@@ -35,6 +41,7 @@ public class ProductService {
     }
 
     public Product ProductGuardar(Product product){
+
 
         for (Product p: productRepository.findAll()){
             if(p.getName().equals(product.getName())){
@@ -78,6 +85,18 @@ public class ProductService {
             setProduct.setActivated(false);
             productRepository.save(setProduct);
         }
+    }
+
+    public Integer sumStocks(Long id, Integer sum){
+        Product product = productRepository.findById(id).get();
+
+        if(sum > 0){
+            Integer resultado = product.sumStocks(sum);
+            product.setStocks(resultado);
+            productRepository.save(product);
+        }
+
+        return productRepository.getById(id).getStocks();
     }
 
 }
