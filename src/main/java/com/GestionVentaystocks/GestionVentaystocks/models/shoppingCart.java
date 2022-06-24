@@ -1,6 +1,5 @@
 package com.GestionVentaystocks.GestionVentaystocks.models;
 
-import com.GestionVentaystocks.GestionVentaystocks.service.ProductService;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,21 +26,10 @@ public class shoppingCart {
     @ManyToMany
     private List<Product> products;
 
-
-    public void agregarProduct(Product product){
-        products.add(product);
-    }
-
-    public void quitarProduct(Product product){
-        products.remove(product);
-    }
-
     public List<ProductForSale> mapProduct(List<Product> products){
-
         List<ProductForSale> productsCart = new ArrayList<ProductForSale>();
         Map<Product, Integer> map = products.stream().collect(Collectors.toMap(Function.identity(), value -> 1, Integer::sum));
         List<Product> keys = new ArrayList<Product>();
-
         for(Product product: products){
             if(keys.contains(product)){
             }else{
@@ -53,13 +41,27 @@ public class shoppingCart {
     }
 
     public float getTotal(List<ProductForSale> products){
-
         float total = 0;
-
         for(ProductForSale product: products){
             total = total + product.getTotal();
         }
         return total;
+    }
 
+    public List<Product> quitar(Long id){
+        int contador = 0;
+        for(Product product: products){
+            if(product.getId() == id){
+                products.remove(contador);
+                break;
+            }
+            contador++;
+        }
+        return products;
+    }
+
+    public List<Product> agregar(Product product) {
+        products.add(product);
+        return products;
     }
 }

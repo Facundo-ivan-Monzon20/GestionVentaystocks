@@ -5,7 +5,6 @@ import com.GestionVentaystocks.GestionVentaystocks.models.Sale;
 import com.GestionVentaystocks.GestionVentaystocks.service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -23,30 +22,36 @@ public class SaleControllers {
         this.saleService = saleService;
     }
 
-    @GetMapping("/sale")
+    @GetMapping("/venta")
     public List<Sale> ListSale(){
         return  saleService.ListSale();
     }
 
-    @GetMapping("/sale/{id}")
+    @GetMapping("/venta/{id}")
     public Optional<Sale> getSale(@PathVariable(value = "id")Long id){
         return saleService.getSale(id);
     }
 
-    @PostMapping("/sale")
+    @PostMapping("/venta")
     public Sale saveSale(@RequestBody Sale sale){
         LocalDate date = LocalDate.now();
         sale.setDate_sale(date);
         return saleService.saveSale(sale);
     }
 
-    @DeleteMapping("/sale/{id}")
+    @DeleteMapping("/venta/{id}")
     public void deleteSale(@PathVariable(value = "id")Long id){
         saleService.deleteSale(id);
     }
 
-    @GetMapping("/sale/mapped")
+    @GetMapping("/venta/mapped")
     public Map<Long,Map<LocalDate, List<ProductForSale>>> mapeoSale(){
         return saleService.mapeoSale();
     }
+
+    @GetMapping("/venta/total")
+    public Map<Long,Float> totalSale(){
+        return saleService.total();
+    }
+
 }

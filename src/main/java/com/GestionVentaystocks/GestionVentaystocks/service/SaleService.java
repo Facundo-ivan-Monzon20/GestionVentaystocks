@@ -25,7 +25,6 @@ public class SaleService {
     }
 
     public List<Sale> ListSale(){
-
         return saleRepository.findAll();
     }
 
@@ -61,5 +60,16 @@ public class SaleService {
     public void deleteSale(Long id) {
 
         saleRepository.deleteById(id);
+    }
+
+    public Map<Long, Float> total() {
+        Map<Long, Float> map = new HashMap<Long, Float>();
+
+        for(Sale sale1: saleRepository.findAll()){
+            List<ProductForSale> productForSales = sale1.getShoppingCart().mapProduct(sale1.getShoppingCart().getProducts());
+            float total = sale1.getShoppingCart().getTotal(productForSales);
+            map.put(sale1.getId(),total);
+        }
+        return map;
     }
 }

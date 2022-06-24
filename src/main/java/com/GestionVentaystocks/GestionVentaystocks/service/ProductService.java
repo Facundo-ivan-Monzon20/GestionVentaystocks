@@ -20,11 +20,9 @@ public class ProductService {
         this.productRepository = productRepository;
     }
     public List<Product> filterProductColum(){
-
-
         List<Product> newListProduct = new ArrayList<>();
 
-        newListProduct= productRepository.findAll()
+        newListProduct = productRepository.findAll()
                 .stream()
                 .filter(product -> product.isActivated())
                 .collect(toList());
@@ -41,7 +39,6 @@ public class ProductService {
     }
 
     public Product ProductGuardar(Product product){
-
 
         for (Product p: productRepository.findAll()){
             if(p.getName().equals(product.getName())){
@@ -68,7 +65,6 @@ public class ProductService {
             if (!(setProduct.getPrice() == product.getPrice())){
                 setProduct.setPrice(product.getPrice());
             }
-
             if (!setProduct.getStocks().equals(product.getStocks())){
                 setProduct.setStocks(product.getStocks());
             }
