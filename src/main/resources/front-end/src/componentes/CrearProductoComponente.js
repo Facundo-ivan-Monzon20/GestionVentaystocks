@@ -15,7 +15,7 @@ function CrearProductoComponente (props) {
     
     const createProductos = (e) => {
         e.preventDefault()
-        ProductosServicios.httpPost('', {name: name, price: price, stocks: stocks})
+        ProductosServicios.httpPost('/', {name: name, price: price, stocks: stocks})
             .then(fetchProductos)
             props.history.push('/productos');
     } 

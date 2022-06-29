@@ -16,10 +16,10 @@ function ActualizarProductoComponente(props) {
 
     const editProductos = (e) => {
         e.preventDefault()
-        ProductosServicio.httpPut(`/${id}`, {name: name, price: price, stocks: stocks})
+        ProductosServicio.httpPut(`/${id}/`, {name: name, price: price, stocks: stocks})
             .then(fetchProductos)
             props.history.push('/productos');
-            window.location.reload()
+            
         }
 
     const cancel = () => {
