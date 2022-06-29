@@ -18,6 +18,7 @@ function CrearProductoComponente (props) {
         ProductosServicios.httpPost('/', {name: name, price: price, stocks: stocks})
             .then(fetchProductos)
             props.history.push('/productos');
+            window.location.reload()
     } 
 
     const cancel = () => {
