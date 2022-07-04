@@ -1,13 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import HeaderComponente from './componentes/HeaderComponente';
 import FooterComponente from './componentes/FooterComponente';
-import CrearProductoComponente from './componentes/CrearProductoComponente';
-import ListarProductosComponente from './componentes/ListarProductosComponente';
-import ActualizarProductoComponente from './componentes/ActualizarProductoComponente';
-import VerProductoComponente from './componentes/VerProductoComponente';
+import CrearProducto from './componentes/CrearProducto';
+import ListarProductos from './componentes/ListarProductos';
+import ActualizarProducto from './componentes/ActualizarProducto';
+import VerProducto from './componentes/VerProducto';
 
 function App() {
   return (
@@ -16,17 +15,16 @@ function App() {
               <HeaderComponente />
                 <div className="container">
                     <Switch> 
-                          <Route path = "/" exact component = {ListarProductosComponente}></Route>
-                          <Route path = "/productos" component = {ListarProductosComponente}></Route>
-                          <Route path = "/crear-producto/:id" component = {CrearProductoComponente}></Route>
-                          <Route path = "/ver-producto/:id" component = {VerProductoComponente}></Route>
-                          <Route path = "/actualizar-producto/:id" component = {ActualizarProductoComponente}></Route>
+                        <Route path = "/" exact component = {ListarProductos}></Route>
+                        <Route path = "/productos" component = {ListarProductos}></Route>
+                        <Route path = "/crear-producto/:id" component = {CrearProducto}></Route>
+                        <Route path = "/ver-producto/:id" component = {VerProducto}></Route>
+                        <Route path = "/actualizar-producto/:id" component = {ActualizarProducto}></Route>
                     </Switch>
                 </div>
               <FooterComponente />
         </Router>
     </div>
-    
   );
 }
 
